@@ -160,7 +160,7 @@ def invert(image, network='alexnet', size=227, layer='features.4', alpha=6, beta
         a.set_yticks([])
 #    plt.show()
     print 'saving'
-    plt.savefig('save_invert.png')
+    plt.savefig('save_invert_1e6.png')
 
 if __name__ == '__main__':
     import argparse
@@ -177,7 +177,7 @@ if __name__ == '__main__':
         parser.add_argument('--alpha', type=float, default=6.)
         parser.add_argument('--beta', type=float, default=2.)
         parser.add_argument('--alpha_lambda', type=float, default=1e-5)
-        parser.add_argument('--tv_lambda', type=float, default=1e-5)
+        parser.add_argument('--tv_lambda', type=float, default=1e-6)
         parser.add_argument('--epochs', type=int, default=200)
         parser.add_argument('--learning_rate', type=int, default=1e2)
         parser.add_argument('--momentum', type=float, default=0.9)
