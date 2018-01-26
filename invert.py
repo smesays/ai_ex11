@@ -177,7 +177,7 @@ if __name__ == '__main__':
         parser.add_argument('--alpha', type=float, default=6.)
         parser.add_argument('--beta', type=float, default=2.)
         parser.add_argument('--alpha_lambda', type=float, default=1e-5)
-        parser.add_argument('--tv_lambda', type=float, default=1e-4)
+        parser.add_argument('--tv_lambda', type=float, default=1e-5)
         parser.add_argument('--epochs', type=int, default=200)
         parser.add_argument('--learning_rate', type=int, default=1e2)
         parser.add_argument('--momentum', type=float, default=0.9)
