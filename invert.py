@@ -160,7 +160,7 @@ def invert(image, network='alexnet', size=227, layer='features.4', alpha=6, beta
         a.set_yticks([])
 #    plt.show()
     print 'saving'
-    plt.savefig('save_invert_vgg11.png')
+    plt.savefig('cat1_1e5.png')
 
 if __name__ == '__main__':
     import argparse
@@ -170,8 +170,11 @@ if __name__ == '__main__':
     try:
         parser = argparse.ArgumentParser()
         parser.add_argument('--image', type=str,
-                default='grace_hopper.jpg')
-        parser.add_argument('--network', type=str, default='vgg11')
+#                default='grace_hopper.jpg')
+#		default='centaur.jpg')
+		default='cat1.jpg')
+#        parser.add_argument('--network', type=str, default='vgg11')
+	parser.add_argument('--network', type=str, default='alexnet')
         parser.add_argument('--size', type=int, default=227)
         parser.add_argument('--layer', type=str, default='features.4')
         parser.add_argument('--alpha', type=float, default=6.)
