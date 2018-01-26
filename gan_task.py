@@ -8,9 +8,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 
-# Hypeerparameters
+# Hyperparameters
+IMAGE_SIZE = 28
+NUMBER_CHANNEL = 1
 BATCH_SIZE = 64
-G_LR = D_LR = 1e-3
+G_LR = D_LR = 0.001
 GLOBAL_STEP = 0
 PRINT_EVERY = 1000
 TOTAL_STEPS = 10000
@@ -56,23 +58,18 @@ imshow(out, c=0, save=False, title="Real MNIST digits")
 
 # custom weights initialization called on netG and netD
 def weights_init(m):
-#    classname = m.__class__.__name__
-#    if classname.find('Conv') != -1:
-#        m.weight.data.normal_(0.0, 0.02)
-#    elif classname.find('BatchNorm') != -1:
-        m.weight.data.normal_(0.0, 0.075**2)
-        m.bias.data.fill_(0)
+    m.weight.data.normal_(0.0, 0.075**2)
+    m.bias.data.fill_(0)
 
 class Generator(nn.Module):
-    def __init__(self):
+    def __init__(self, input_shape=(IMAGE_SIZE, IMAGE_SIZE)):
         super(Generator, self).__init__()
         self.main = nn.Sequential(
             # input is Z, going into a convolution
-            nn.Linear(100* 8, 4, 1, 0, bias=False),
+            nn.Linear(100, 128),
             nn.ReLU(True),
-            nn.Linear(    ngf,      nc, 4, 2, 1, bias=False),
-            nn.Tanh()
-            # state size. (nc) x 64 x 64
+            nn.Linear(128, np.prod(input_shape)*NUMBER_CHANNEL),
+            nn.Sigmoid()
         )
 
     def forward(self, input):
@@ -83,28 +80,13 @@ class Generator(nn.Module):
         return output
 
 
-class _netD(nn.Module):
-    def __init__(self, ngpu):
-        super(_netD, self).__init__()
-        self.ngpu = ngpu
+class Discriminator(nn.Module):
+    def __init__(self, input_shape=(IMAGE_SIZE, IMAGE_SIZE)):
+        super(Discriminator, self).__init__()        
         self.main = nn.Sequential(
-            # input is (nc) x 64 x 64
-            nn.Conv2d(nc, ndf, 4, 2, 1, bias=False),
-            nn.LeakyReLU(0.2, inplace=True),
-            # state size. (ndf) x 32 x 32
-            nn.Conv2d(ndf, ndf * 2, 4, 2, 1, bias=False),
-            nn.BatchNorm2d(ndf * 2),
-            nn.LeakyReLU(0.2, inplace=True),
-            # state size. (ndf*2) x 16 x 16
-            nn.Conv2d(ndf * 2, ndf * 4, 4, 2, 1, bias=False),
-            nn.BatchNorm2d(ndf * 4),
-            nn.LeakyReLU(0.2, inplace=True),
-            # state size. (ndf*4) x 8 x 8
-            nn.Conv2d(ndf * 4, ndf * 8, 4, 2, 1, bias=False),
-            nn.BatchNorm2d(ndf * 8),
-            nn.LeakyReLU(0.2, inplace=True),
-            # state size. (ndf*8) x 4 x 4
-            nn.Conv2d(ndf * 8, 1, 4, 1, 0, bias=False),
+            nn.Linear(np.prod(input_shape)*NUMBER_CHANNEL, 128),
+            nn.ReLU(True),
+            nn.Linear(128, 1),
             nn.Sigmoid()
         )
 
@@ -118,7 +100,7 @@ class _netD(nn.Module):
 
 
 # Train
-netG.apply(weights_init)
+Generator.apply(weights_init)
 if opt.netG != '':
     netG.load_state_dict(torch.load(opt.netG))
 print(netG)
