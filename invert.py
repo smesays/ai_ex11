@@ -149,7 +149,7 @@ def invert(image, network='alexnet', size=227, layer='features.4', alpha=6, beta
 
         if (i+1) % decay_iter == 0:
             decay_lr(optimizer, decay_factor)
-
+    '''
     f, ax = plt.subplots(1,2)
     ax[0].imshow(detransform(img_[0]))
     ax[1].imshow(detransform(x_[0].data.cpu()))
@@ -157,7 +157,7 @@ def invert(image, network='alexnet', size=227, layer='features.4', alpha=6, beta
         a.set_xticks([])
         a.set_yticks([])
     plt.show()
-
+    '''
 
 if __name__ == '__main__':
     import argparse
