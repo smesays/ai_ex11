@@ -52,7 +52,7 @@ def imshow(inp, c, save=False, title=None):
 
 inputs = mnist().data.resize_(BATCH_SIZE, 1, D_SIDE, D_SIDE)
 out = utils.make_grid(inputs)
-imshow(out, c=0, save=False, title="Real MNIST digits")
+#imshow(out, c=0, save=False, title="Real MNIST digits")
 
 # Build the discriminator (D) and generator (G) models
 
@@ -118,5 +118,5 @@ print(netD)
 # Inspect Results
 samples = G(random_noise(64)).data.resize_(64, 1, D_SIDE, D_SIDE)
 samples = utils.make_grid(samples)
-imshow(samples, c = GLOBAL_STEP // PRINT_EVERY, save=False,
+#imshow(samples, c = GLOBAL_STEP // PRINT_EVERY, save=False,
        title="Fake MNIST digits ({} train steps)".format(GLOBAL_STEP))
