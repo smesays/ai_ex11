@@ -10,6 +10,8 @@ import numpy as np
 
 import os
 
+import matplotlib
+matplotlib.use('agg')
 import matplotlib.pyplot as plt
 
 from PIL import Image
@@ -149,15 +151,16 @@ def invert(image, network='alexnet', size=227, layer='features.4', alpha=6, beta
 
         if (i+1) % decay_iter == 0:
             decay_lr(optimizer, decay_factor)
-    '''
+
     f, ax = plt.subplots(1,2)
     ax[0].imshow(detransform(img_[0]))
     ax[1].imshow(detransform(x_[0].data.cpu()))
     for a in ax:
         a.set_xticks([])
         a.set_yticks([])
-    plt.show()
-    '''
+#    plt.show()
+    print 'saving'
+    plt.savefig('save_invert.png')
 
 if __name__ == '__main__':
     import argparse
@@ -174,7 +177,7 @@ if __name__ == '__main__':
         parser.add_argument('--alpha', type=float, default=6.)
         parser.add_argument('--beta', type=float, default=2.)
         parser.add_argument('--alpha_lambda', type=float, default=1e-5)
-        parser.add_argument('--tv_lambda', type=float, default=1e-5)
+        parser.add_argument('--tv_lambda', type=float, default=1e-4)
         parser.add_argument('--epochs', type=int, default=200)
         parser.add_argument('--learning_rate', type=int, default=1e2)
         parser.add_argument('--momentum', type=float, default=0.9)

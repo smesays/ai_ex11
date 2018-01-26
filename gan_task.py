@@ -63,10 +63,14 @@ out = utils.make_grid(inputs)
 
 # Build the discriminator (D) and generator (G) models
 
-# custom weights initialization called on netG and netD
+# custom weights initialization
 def weights_init(m):
-    m.weight.data.normal_(0.0, 0.075**2)
-    m.bias.data.fill_(0)
+    classname = m.__class__.__name__
+    if classname.find('Conv') != -1:
+        m.weight.data.normal_(0.0, 0.02)
+    elif classname.find('BatchNorm') != -1:
+        m.weight.data.normal_(1.0, 0.02)
+        m.bias.data.fill_(0)
 
 class Generator(nn.Module):
     def __init__(self, input_shape=(DIM_SIDE, DIM_SIDE)):
@@ -100,9 +104,9 @@ class Discriminator(nn.Module):
 
 # Train
 gen_model = Generator()
-#gen_model.apply(weights_init) # this doesn't work. it is complaining ReLU does not have weight attribute. do not know how to fix
+gen_model.apply(weights_init) # this doesn't work. it is complaining ReLU does not have weight attribute. do not know how to fix
 dis_model = Discriminator()
-#dis_model.apply(weights_init)
+dis_model.apply(weights_init)
 
 input = torch.FloatTensor(BATCH_SIZE, NUMBER_CHANNEL, DIM_SIDE*DIM_SIDE)
 noise = torch.FloatTensor(BATCH_SIZE, DIM_NOISE, 1, 1)
