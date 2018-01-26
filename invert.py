@@ -1,14 +1,5 @@
-import torch 
-import torch.nn as nn 
-from torch.autograd import Variable 
-import torchvision.transforms as transforms 
-import torchvision.models as models 
-import numpy as np 
-import os 
-import matplotlib.pyplot as plt 
-from PIL import Image 
-
-def alpha_prior(x, alpha=2.):
+import torch import torch.nn as nn from torch.autograd import Variable import torchvision.transforms as transforms import torchvision.models as models import numpy as np import os 
+import matplotlib.pyplot as plt from PIL import Image def alpha_prior(x, alpha=2.):
     return torch.abs(x.view(-1)**alpha).sum() def tv_norm(x, beta=2.):
     assert(x.size(0) == 1)
     img = x[0]
